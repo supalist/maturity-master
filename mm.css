@@ -1,0 +1,215 @@
+/* ===== Root Theme Variables (optional placeholder) ===== */
+:root {
+  --header-bg: #111;
+  --header-text: #fff;
+  --link-color: #1e90ff;
+  --page-bg: #1a1a1a;
+  --card-bg: #222;
+  --action-gray: #aaa;
+  --button-bg: #444;
+  --button-text: #fff;
+}
+
+body {
+  background-color: var(--page-bg);
+  color: var(--header-text);
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Header ===== */
+.mm-header {
+  background-color: var(--header-bg);
+  color: var(--header-text);
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.mm-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mm-logo {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--header-text);
+  text-decoration: none;
+}
+
+.mm-user-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mm-user-controls a {
+  color: var(--header-text);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.mm-user-controls a:hover {
+  text-decoration: underline;
+}
+
+.hamburger {
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px;
+  color: var(--header-text);
+}
+
+#menu-toggle {
+  display: none;
+}
+
+.mm-menu {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#menu-toggle:checked + .hamburger + .mm-menu {
+  display: block;
+  background-color: var(--menu-bg);
+  position: absolute;
+  top: 40px;
+  right: 70px;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.mm-menu li a {
+  display: block;
+  padding: 5px 10px;
+  color: var(--menu-link);
+  text-decoration: none;
+}
+
+.mm-menu li a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Main Container ===== */
+.mm-main {
+  width: 100%;
+  max-width: 90vw;
+  margin: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 700px) {
+  .mm-main {
+    max-width: 1800px;
+  }
+}
+
+/* ===== Form Elements ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  background: var(--card-bg);
+  color: var(--header-text);
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* ===== Probe Section ===== */
+.probe-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.probe-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 500px) {
+  .probe-row {
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
+
+/* ===== Stat Cards (if reused) ===== */
+.stat-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  color: var(--header-text);
+}
+
+.stat-card .label {
+  font-size: 0.85rem;
+  color: var(--link-color);
+  letter-spacing: 0.5px;
+}
+
+.stat-card .value {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0.25rem 0;
+}
+
+.stat-card .sub {
+  font-size: 0.9rem;
+  color: var(--action-gray);
+}
+/* ===== Graph Container ===== */
+#graph-container {
+  width: 100%;
+  max-width: 90vw;
+  margin: auto;
+  height: 300px;
+}
+#nurse-saul-container {
+  width: 90%;
+  max-width: 90vw;
+  margin: 2rem auto 0 auto;
+  height: 300px;
+}

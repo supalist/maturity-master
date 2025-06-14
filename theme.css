@@ -1,0 +1,30 @@
+/* Default Light Theme */
+:root {
+  --header-bg: orange;
+  --header-text: black;
+  --menu-bg: lightgrey;
+  --menu-link: blue;
+  --card-bg: grey;
+  --button-bg: #333;
+  --button-text: white;
+  --action-green: green;
+  --action-gray: gray;
+  --action-red: darkred;
+  --link-color: blue;
+  --page-bg: lightgrey;
+}
+
+.theme-dark {
+  --header-bg: #333;
+  --header-text: white;
+  --menu-bg: #222;
+  --menu-link: lightblue;
+  --card-bg: #222;
+  --button-bg: darkgray;
+  --button-text: black;
+  --action-green: limegreen;
+  --action-gray: silver;
+  --action-red: crimson;
+  --link-color: gold;
+  --page-bg: #333;
+}
