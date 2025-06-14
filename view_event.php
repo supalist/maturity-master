@@ -87,6 +87,7 @@ $stmt->close();
   $percent = round(($predicted / $design) * 100);
   ?>
 
+<div style="display: none;">
   <div class="stat-card-wrapper" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
     <div class="stat-card" style="flex: 1 1 300px;">
       <div class="label">Mix Type</div>
@@ -94,6 +95,8 @@ $stmt->close();
       <div class="sub">Design Strength: <?= $design ?> MPa</div>
       <div class="sub">Estimated Strength: <?= $predicted ?> MPa (<?= $percent ?>%)</div>
     </div>
+  </div>
+</div>
 
     <div class="stat-card" style="flex: 1 1 300px;">
       <div style="font-weight: bold; color: var(--accent); margin-bottom: 0.25rem;">Temperature</div>

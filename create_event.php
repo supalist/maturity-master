@@ -38,15 +38,19 @@ if (!isset($_SESSION['user_id'])) {
     <label>End Time:</label>
     <input type="datetime-local" name="end_time" value="<?= $plus7 ?>" required>
 
-    <label>Mix Type:</label>
-    <select name="mix_type" required>
-      <option value="standard">Standard (20–45 MPa)</option>
-      <option value="flyash">Fly-Ash Blend (slow cure)</option>
-      <option value="high_early">High Early Strength</option>
-    </select>
+<div style="display: none;">
+  <label>Mix Type:</label>
+  <select name="mix_type">
+    <option value="standard" selected>Standard (20–45 MPa)</option>
+    <option value="flyash">Fly-Ash Blend (slow cure)</option>
+    <option value="high_early">High Early Strength</option>
+  </select>
+</div>
 
-    <label>Target Strength (MPa):</label>
-    <input type="number" name="design_strength" min="10" max="100" required>
+<div style="display: none;">
+  <label for="target_strength">Target Strength (MPa):</label>
+  <input type="number" name="target_strength" id="target_strength" min="5" max="100" step="1">
+</div>
 
     <label>Probes (add up to any number you want):</label>
     <div id="probes" class="probe-wrapper">

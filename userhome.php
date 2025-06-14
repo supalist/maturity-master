@@ -125,12 +125,15 @@ $stmt->close();
             Project: <span style="font-weight: normal;"><?= htmlspecialchars($event['event_name']) ?></span>
         </p>
 
-        <div class="stat-card-wrapper" style="display: flex; flex-wrap: wrap; gap: 1rem;">
-          <div class="stat-card" style="flex: 1 1 300px; border-radius: 10px; padding: 1rem; background: rgba(255,255,255,0.05); box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
-            <div class="label" style="font-weight: bold; margin-bottom: 0.25rem; color: var(--accent);">Estimated Strength</div>
-            <div class="value" style="font-size: 1.5rem;"><?= $stats['predicted'] ?> MPa</div>
-            <div class="sub" style="font-size: 0.9rem; color: var(--text-light);"><?= $stats['percent'] ?>% of <?= $stats['target'] ?> MPa</div>
-          </div>
+<div style="display: none;">
+  <div class="stat-card-wrapper" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+    <div class="stat-card" style="flex: 1 1 300px; border-radius: 10px; padding: 1rem; background: rgba(255,255,255,0.05); box-shadow: 0 1">
+      <div class="label" style="font-weight: bold; margin-bottom: 0.25rem; color: var(--accent);">Estimated Strength</div>
+      <div class="value" style="font-size: 1.5rem;"><?= $stats['predicted'] ?> MPa</div>
+      <div class="sub" style="font-size: 0.9rem; color: var(--text-light);"><?= $stats['percent'] ?>% of <?= $stats['target'] ?> MPa</div>
+    </div>
+  </div>
+</div>
 
           <div class="stat-card" style="flex: 1 1 300px; border-radius: 10px; padding: 1rem; background: rgba(255,255,255,0.05); box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
             <div style="font-weight: bold; color: var(--accent); margin-bottom: 0.25rem;">Temperature</div>
