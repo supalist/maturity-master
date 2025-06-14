@@ -1,30 +1,30 @@
 /* Default Light Theme */
 :root {
-  --header-bg: orange;
-  --header-text: black;
-  --menu-bg: lightgrey;
-  --menu-link: blue;
-  --card-bg: grey;
-  --button-bg: #333;
+  --header-bg: #f8f8f8;
+  --header-text: #333;
+  --menu-bg: #ffffff;
+  --menu-link: #0077cc;
+  --card-bg: #f0f0f0;
+  --button-bg: #0077cc;
   --button-text: white;
-  --action-green: green;
-  --action-gray: gray;
-  --action-red: darkred;
-  --link-color: blue;
-  --page-bg: lightgrey;
+  --action-green: #28a745;
+  --action-gray: #6c757d;
+  --action-red: #dc3545;
+  --link-color: #0077cc;
+  --page-bg: #dddddd;
 }
 
 .theme-dark {
-  --header-bg: #333;
-  --header-text: white;
-  --menu-bg: #222;
-  --menu-link: lightblue;
-  --card-bg: #222;
-  --button-bg: darkgray;
-  --button-text: black;
-  --action-green: limegreen;
-  --action-gray: silver;
-  --action-red: crimson;
-  --link-color: gold;
-  --page-bg: #333;
+  --header-bg: #1e1e1e;
+  --header-text: #cccccc;
+  --menu-bg: #2c2c2c;
+  --menu-link: #4ab0ff;
+  --card-bg: #2a2a2a;
+  --button-bg: #444;
+  --button-text: white;
+  --action-green: #44d070;
+  --action-gray: #999;
+  --action-red: #e26a6a;
+  --link-color: #f2b91f;
+  --page-bg: #1a1a1a;
 }

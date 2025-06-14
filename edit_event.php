@@ -13,6 +13,7 @@ $stmt->close();
 
 if (!$event) exit("Event not found or not yours.");
 
+
 // Get probe data including labels
 $probes = [];
 $stmt = $conn->prepare("SELECT mac_address, location_label FROM maturity_event_probes WHERE event_id = ?");
@@ -33,16 +34,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_probes = $_POST['probes'] ?? [];
     $labels = $_POST['labels'] ?? [];
 
+    // Update the event details
     $stmt = $conn->prepare("UPDATE maturity_events SET event_name = ?, start_time = ?, end_time = ?, mix_type = ?, design_strength = ? WHERE id = ?");
     $stmt->bind_param("ssssii", $name, $start, $end, $mix, $design_strength, $event['id']);
     $stmt->execute();
     $stmt->close();
 
+    // Remove existing probes
     $stmt = $conn->prepare("DELETE FROM maturity_event_probes WHERE event_id = ?");
     $stmt->bind_param("i", $event['id']);
     $stmt->execute();
     $stmt->close();
 
+    // Insert updated probes
     $stmt = $conn->prepare("INSERT INTO maturity_event_probes (event_id, mac_address, location_label) VALUES (?, ?, ?)");
     foreach ($new_probes as $i => $mac) {
         $clean_mac = strtoupper(trim($mac));
@@ -78,17 +82,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input type="text" name="event_name" value="<?= htmlspecialchars($event['event_name']) ?>" required>
     </label>
 
-    <label>Mix Type:
-      <select name="mix_type" required>
-        <option value="standard" <?= $event['mix_type'] === 'standard' ? 'selected' : '' ?>>Standard (20–45 MPa)</option>
-        <option value="flyash" <?= $event['mix_type'] === 'flyash' ? 'selected' : '' ?>>Fly-Ash Blend</option>
-        <option value="high_early" <?= $event['mix_type'] === 'high_early' ? 'selected' : '' ?>>High Early Strength</option>
-      </select>
-    </label>
+<div style="display: none;">
+  <label for="mix_type">Mix Type:</label>
+  <select name="mix_type" id="mix_type">
+    <option value="standard">Standard (20–45 MPa)</option>
+    <option value="flyash">Fly-Ash Blend (slow cure)</option>
+    <option value="high_early">High Early Strength</option>
+  </select>
+</div>
 
-    <label>Design Strength (MPa):
-      <input type="number" name="design_strength" min="10" max="100" value="<?= htmlspecialchars($event['design_strength']) ?>" required>
-    </label>
+<div style="display: none;">
+  <label for="target_strength">Design Strength (MPa):</label>
+  <input type="number" name="target_strength" id="target_strength" step="1" min="5" max="100">
+</div>
 
     <label>Start Time:
       <input type="datetime-local" name="start_time" value="<?= date('Y-m-d\TH:i', strtotime($event['start_time'])) ?>" required>
@@ -98,51 +104,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input type="datetime-local" name="end_time" value="<?= date('Y-m-d\TH:i', strtotime($event['end_time'])) ?>" required>
     </label>
 
-    <div>
-      <label>Probes:</label>
-      <div id="probes" style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <?php foreach ($probes as $row): ?>
-          <div style="display: flex; gap: 0.5rem;">
-            <input type="text" name="probes[]" value="<?= htmlspecialchars($row['mac_address']) ?>" maxlength="17" style="font-family: monospace; flex: 2;" required>
-            <input type="text" name="labels[]" value="<?= htmlspecialchars($row['location_label']) ?>" placeholder="e.g. core, top, edge" style="flex: 2;">
-          </div>
-        <?php endforeach; ?>
-        <?php if (empty($probes)): ?>
-          <div style="display: flex; gap: 0.5rem;">
-            <input type="text" name="probes[]" placeholder="CA:FE:00:00:00:00" maxlength="17" style="font-family: monospace; flex: 2;" required>
-            <input type="text" name="labels[]" placeholder="e.g. core" style="flex: 2;">
-          </div>
-        <?php endif; ?>
+<div>
+  <label>Probes:</label>
+  <div id="probes" style="display: flex; flex-direction: column; gap: 0.5rem;">
+    <?php foreach ($probes as $row): ?>
+      <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
+        <input type="text" name="probes[]" value="<?= htmlspecialchars($row['mac_address']) ?>" maxlength="17" style="font-family: monospace; flex: 2;" required>
+        <input type="text" name="labels[]" value="<?= htmlspecialchars($row['location_label']) ?>" placeholder="e.g. core, top, edge" style="flex: 2;">
+        <button type="button" onclick="this.parentElement.remove()" style="flex: 0;">❌</button>
       </div>
-      <button type="button" onclick="addProbe()" style="margin-top: 0.5rem;">➕ Add Another Probe</button>
-    </div>
+    <?php endforeach; ?>
 
+    <?php if (empty($probes)): ?>
+      <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
+        <input type="text" name="probes[]" placeholder="CA:FE:00:00:00:00" maxlength="17" style="font-family: monospace; flex: 2;" required>
+        <input type="text" name="labels[]" placeholder="e.g. core" style="flex: 2;">
+        <button type="button" onclick="this.parentElement.remove()" style="flex: 0;">❌</button>
+      </div>
+    <?php endif; ?>
+  </div>
+  <button type="button" onclick="addProbe()" style="margin-top: 0.5rem;">➕ Add Another Probe</button>
+</div>
     <button type="submit" style="padding: 0.75rem; background: var(--button-bg); color: var(--button-text); border: none; border-radius: 6px; cursor: pointer;">💾 Save Changes</button>
 </form>
 </main>
 
 <script>
-function addProbe() {
+function addProbe(mac = '', label = '') {
   const div = document.createElement('div');
   div.style.display = 'flex';
   div.style.gap = '0.5rem';
+  div.style.alignItems = 'flex-end';
+
   div.innerHTML = `
-    <input type="text" name="probes[]" placeholder="CA:FE:00:00:00:00" maxlength="17" style="font-family: monospace; flex: 2;" required>
-    <input type="text" name="labels[]" placeholder="e.g. core" style="flex: 2;">
+    <input type="text" name="probes[]" value="${mac}" placeholder="CA:FE:00:00:00:00" maxlength="17" style="font-family: monospace; flex: 2;" required>
+    <input type="text" name="labels[]" value="${label}" placeholder="e.g. core" style="flex: 2;">
+    <button type="button" onclick="this.parentElement.remove()" style="flex: 0;">❌</button>
   `;
+
   document.getElementById('probes').appendChild(div);
 }
 
-function validateForm() {
-  const inputs = document.querySelectorAll('input[name="probes[]"]');
-  for (let input of inputs) {
-    if (input.value.trim() !== '' && !input.value.toUpperCase().startsWith('CA:FE:')) {
-      alert('All probe addresses must start with CA:FE:');
-      return false;
-    }
+// Optional: Load this on page if probes are empty
+window.addEventListener('DOMContentLoaded', () => {
+  if (document.querySelectorAll('#probes > div').length === 0) {
+    addProbe();
   }
-  return true;
-}
+});
 </script>
 </body>
 </html>

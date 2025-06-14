@@ -31,6 +31,9 @@ function toggleTheme() {
   const body = document.body;
   const isDark = body.classList.toggle('theme-dark');
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+  // Force page reload after slight delay to apply graph theme colors
+  setTimeout(() => location.reload(), 100);
 }
 
 window.addEventListener('DOMContentLoaded', () => {

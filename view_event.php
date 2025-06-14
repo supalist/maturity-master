@@ -146,7 +146,7 @@ fetch("fetch_event_graph_data.php?key=" + shareKey + "&mobile=" + (isMobile ? "1
 .then(data => {
   const ctx = document.getElementById('eventChart').getContext('2d');
   const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#E7E9ED', '#00A36C'];
-
+const themeTextColor = getComputedStyle(document.body).getPropertyValue('--header-text').trim();
   const startTime = "<?= $event['start_time'] ?>";
   const endTime = "<?= $event['end_time'] ?>";
 
@@ -164,35 +164,60 @@ fetch("fetch_event_graph_data.php?key=" + shareKey + "&mobile=" + (isMobile ? "1
         tension: 0.2
       }))
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        title: { display: true, text: 'Event Temperature Data' },
-        legend: { display: true, position: 'bottom' }
-      },
-      scales: {
-        y: {
-          title: { display: true, text: 'Temperature (°C)' }
-        },
-        x: {
-          type: 'time',
-          min: startTime,
-          max: endTime,
-          time: {
-            tooltipFormat: 'HH:mm dd MMM',
-            displayFormats: { minute: 'HH:mm dd MMM', hour: 'HH:mm dd MMM' }
-          },
-          title: { display: true, text: 'Time' },
-          ticks: {
-            maxTicksLimit: isMobile ? 4 : 12,
-            autoSkip: true,
-            maxRotation: 45,
-            minRotation: 45
-          }
-        }
+options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    title: {
+      display: true,
+      text: 'Event Temperature Data',
+      color: themeTextColor
+    },
+    legend: {
+      display: true,
+      position: 'bottom',
+      labels: {
+        color: themeTextColor
       }
     }
+  },
+  scales: {
+    y: {
+      title: {
+        display: true,
+        text: 'Temperature (°C)',
+        color: themeTextColor
+      },
+      ticks: {
+        color: themeTextColor
+      }
+    },
+    x: {
+      type: 'time',
+      min: startTime,
+      max: endTime,
+      time: {
+        tooltipFormat: 'HH:mm dd MMM',
+        displayFormats: {
+          minute: 'HH:mm dd MMM',
+          hour: 'HH:mm dd MMM'
+        }
+      },
+      title: {
+        display: true,
+        text: 'Time',
+        color: themeTextColor
+      },
+      ticks: {
+        maxTicksLimit: isMobile ? 4 : 12,
+        autoSkip: true,
+        maxRotation: 45,
+        minRotation: 45,
+        color: themeTextColor
+      }
+    }
+  }
+}
   });
 
   const mins = [], maxs = [], lasts = [];
